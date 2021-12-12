@@ -15,3 +15,9 @@ Bare bones features:
 Extra features:
 
 W.I.P.
+
+Scaffolding :/
+
+i) each note has : users (with one or more privileges ), admin/s(at least file creator, full rights), te studygroups in which it is shared , and the path for the "folder structure" of it's creator, and and array of tags to facilitate searching/
+
+ii) each user has : the array of files where he is an admin , the array of studygroups, and the array of files which he created./
