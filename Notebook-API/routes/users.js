@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/user");
 const StudyGroup = require("./models/studyGroup");
 
+// PUT a user
 router.put("/users/:userId", async (req, res, next) => {
     try {
         const user = await User.findByPk(req.params.userId);
@@ -9,14 +10,15 @@ router.put("/users/:userId", async (req, res, next) => {
             await user.update(req.body);
             res.status(200).json({ message: "User updated" });
         } else {
-            res.sendStatus(404);
+            res.status(404).json({ message: "User not found" });
         }
     } catch (error) {
         next(error);
     }
 });
 
-// doar post ar trebui sa avem pe ruta asta sau si put?
+// ------------- de vazut daca le pastram -------------
+// PUT a user to a study group
 router.put(
     "/studyGroups/:studyGroupId/users/:userId",
     async (req, res, next) => {
@@ -46,11 +48,12 @@ router.put(
     }
 );
 
+// PUT a study group to a user
 router.put(
     "/user/:userId/studyGroups/:studyGroupId",
     async (req, res, next) => {
         try {
-            const user = await User.findByPk(req.params.studyGroupId);
+            const user = await User.findByPk(req.params.userId);
             if (user) {
                 const studyGroups = await user.getStudyGroups({
                     id: req.params.studyGroupId,
@@ -72,3 +75,20 @@ router.put(
         }
     }
 );
+
+// --------------------------------
+
+// PUT a study group
+router.put("/studyGroups/:studyGroupId", async (req, res, next) => {
+    try {
+        const studyGroup = await StudyGroup.findByPk(req.params.studyGroupId);
+        if (studyGroup) {
+            await studyGroup.update(req.body);
+            res.status(200).json({ message: "Study group updated" });
+        } else {
+            res.status(404).json({ message: "Study group not found" });
+        }
+    } catch (error) {
+        next(error);
+    }
+});
