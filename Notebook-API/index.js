@@ -1,9 +1,12 @@
 // Express Initialisation
 const express = require("express");
-
+const app = express();
 // Sequelize Initialisation
 const sequelize = require("./sequelize");
-const app = express();
+
+//Routes Paths
+const userRoute = require("./routes/users");
+const noteRoute = require("./routes/notes");
 
 // Import created models
 const Note = require("./models/note");
@@ -22,6 +25,20 @@ Note.belongsToMany(Tag, { through: "tagEntry" });
 Tag.belongsToMany(Note, { through: "tagEntry" });
 Note.hasMany(Resource);
 
+// Middlewares
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use(express.json());
+app.use((error, request, response, next) => {
+  console.error(`[ERROR]: ${error}`);
+  response.status(500).json(error);
+});
+app.use("/api", userRoute);
+app.use("/api", noteRoute);
+
 // Kickstart the Express aplication
 app.listen(7777, async () => {
   console.log("server started");
@@ -30,5 +47,14 @@ app.listen(7777, async () => {
     console.log("connected to db");
   } catch {
     console.log("unable to connect to db");
+  }
+});
+
+app.put("/", async (request, response, next) => {
+  try {
+    await sequelize.sync({ alter: true });
+    response.sendStatus(204);
+  } catch (error) {
+    next(error);
   }
 });
