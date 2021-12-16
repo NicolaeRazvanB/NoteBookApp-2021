@@ -1,5 +1,6 @@
 const sequelize = require("../sequelize");
 const { DataTypes } = require("sequelize");
+const { now } = require("sequelize/dist/lib/utils");
 
 const Note = sequelize.define("note", {
   id: {
@@ -11,7 +12,7 @@ const Note = sequelize.define("note", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  acitvityType: {
+  activityType: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -19,14 +20,14 @@ const Note = sequelize.define("note", {
     type: DataTypes.NUMBER,
     allowNull: false,
   },
-  actvityDate: {
-    type: DataTypes.DATE,
+  activityDate: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   adminId: {
     type: DataTypes.UUID,
     allowNull: false,
-  },
+  }, // defapt trebuia sa fie array
 });
 
 module.exports = Note;

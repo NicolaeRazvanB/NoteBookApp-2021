@@ -16,7 +16,6 @@ const Resource = require("./models/resource");
 const StudyGroup = require("./models/studyGroup");
 
 // Define entities relationship
-
 User.belongsToMany(Note, { through: "sharedFile" });
 Note.belongsToMany(User, { through: "sharedFile" });
 User.belongsToMany(StudyGroup, { through: "groupEntry" });
@@ -52,7 +51,7 @@ app.listen(7777, async () => {
 
 app.put("/", async (request, response, next) => {
   try {
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: true });
     response.sendStatus(204);
   } catch (error) {
     next(error);

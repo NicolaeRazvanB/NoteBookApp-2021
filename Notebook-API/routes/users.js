@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user");
 const StudyGroup = require("../models/studyGroup");
+const Note = require("../models/note");
 
 //POST A USER
 router.post("/users", async (request, response, next) => {
@@ -8,6 +9,23 @@ router.post("/users", async (request, response, next) => {
     const user = await User.create(request.body);
     console.log(user);
     response.status(201).location(user.id).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
+//post note to a user
+router.post("/users/:userId/notes", async (request, response, next) => {
+  try {
+    const user = await User.findByPk(request.params.userId);
+    if (user) {
+      const note = await Note.create(request.body);
+      user.addNote(note);
+      await user.save();
+      response.status(201).location(note.id).send();
+    } else {
+      response.sendStatus(404);
+    }
   } catch (error) {
     next(error);
   }
