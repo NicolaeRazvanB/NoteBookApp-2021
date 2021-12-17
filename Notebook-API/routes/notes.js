@@ -4,6 +4,7 @@ const Resource = require("../models/resource");
 const Tag = require("../models/tag");
 const User = require("../models/user");
 
+//GETS
 //GET all notes from a user
 router.get("/notes/:userId/notes", async (request, response, next) => {
   try {
@@ -15,6 +16,80 @@ router.get("/notes/:userId/notes", async (request, response, next) => {
       } else {
         response.sendStatus(204);
       }
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//GET all tags of a note
+router.get("/notes/:noteId/tags", async (request, response, next) => {
+  try {
+    const note = await Note.findByPk(request.params.noteId);
+    if (note) {
+      const tags = await note.getTags();
+      if (tags.length > 0) {
+        response.json(tags);
+      } else {
+        response.sendStatus(204);
+      }
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//GETS
+//GET ALL RESOURCES of a note
+router.get("/notes/:noteId/resources", async (request, response, next) => {
+  try {
+    const note = await Note.findByPk(request.params.noteId);
+    if (note) {
+      const resources = await note.getResources();
+      if (resources.length > 0) {
+        response.json(resources);
+      } else {
+        response.sendStatus(204);
+      }
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POSTS
+//POST a tag to a note
+router.post("/notes/:noteId/tags", async (request, response, next) => {
+  try {
+    const note = await Note.findByPk(request.params.noteId);
+    if (note) {
+      const tag = await Tag.create(request.body);
+      note.addTag(tag);
+      await note.save();
+      response.status(201).location(tag.id).send();
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST a resource to a note
+router.post("/notes/:noteId/resources", async (request, response, next) => {
+  try {
+    const note = await Note.findByPk(request.params.noteId);
+    if (note) {
+      const resource = await Resource.create(request.body);
+      note.addResource(resource);
+      await note.save();
+      response.status(201).location(resource.id).send();
     } else {
       response.sendStatus(404);
     }

@@ -1,21 +1,21 @@
 -using router file separation
-
+-!!! acces is given by adding the note to a user or studygroup
 Nick
 GET
-1.get all notes of a user N
-2.get all tags of a note N
-3.get all users of a studygroup U
+1.get all notes of a user N \* COMPLETE
+2.get all tags of a note N \* COMPLETE
+3.get all users of a studygroup U \* COMPLETE
 4.get all notes of a studygroup N
 5.get a note by name N
 6.get a note by id N
-7.get all resources of a note N
+7.get all resources of a note N \*COMPLETE
 
 POST
-1.post user, note, studygroup,resource,tag U N
-2.post a user in a group U
-3.post a note for a user U
-4.post a tag for a note N
-5.post a resource for a note N
+1.post user \*, studygroup \* U N COMPLETE
+2.post a user in a group U COMPLETE
+3.post a note for a user by Id U COMPLETE
+4.post a tag for a note N COMPLETE
+5.post a resource for a note N COMPLETE
 
 Andrada
 PUT

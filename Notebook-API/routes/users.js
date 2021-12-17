@@ -2,7 +2,10 @@ const router = require("express").Router();
 const User = require("../models/user");
 const StudyGroup = require("../models/studyGroup");
 const Note = require("../models/note");
+const { Router } = require("express");
+const Tag = require("../models/tag");
 
+//POSTS
 //POST A USER
 router.post("/users", async (request, response, next) => {
   try {
@@ -14,6 +17,82 @@ router.post("/users", async (request, response, next) => {
   }
 });
 
+//POST note to a user
+router.post("/users/:userId/notes", async (request, response, next) => {
+  try {
+    const user = await User.findByPk(request.params.userId);
+    if (user) {
+      const note = await Note.create(request.body);
+      user.addNote(note);
+      await user.save();
+      response.status(201).location(note.id).send();
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST A USER TO A STUDYGROUP
+router.post(
+  "/studygroups/:studyGroupId/:userId",
+  async (request, response, next) => {
+    try {
+      const studyGroup = await StudyGroup.findByPk(request.params.studyGroupId);
+      if (studyGroup) {
+        const user = await User.findByPk(request.params.userId);
+        studyGroup.addUser(user);
+        await studyGroup.save();
+        response.status(201).location(user.id).send();
+      } else {
+        response.sendStatus(404);
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+//POST A STUDYGROUP with it's creator as first member
+router.post("/:userId/studygroups", async (request, response, next) => {
+  try {
+    const user = await User.findByPk(request.params.userId);
+    if (user) {
+      const studyGroup = await StudyGroup.create(request.body);
+      studyGroup.addUser(user);
+      await studyGroup.save();
+      response.status(201).location(studyGroup.id).send();
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//GETS
+//GET ALL USERS OF A STUDYGROUP
+router.get(
+  "/studygroups/:studyGroupId/users",
+  async (request, response, next) => {
+    try {
+      const studyGroup = await StudyGroup.findByPk(request.params.studyGroupId);
+      if (studyGroup) {
+        const users = await studyGroup.getUsers();
+        if (users.length > 0) {
+          response.json(users);
+        } else {
+          response.sendStatus(204);
+        }
+      } else {
+        response.sendStatus(404);
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 //GET ALL USERS
 router.get("/users", async (request, response, next) => {
   try {
@@ -28,15 +107,12 @@ router.get("/users", async (request, response, next) => {
   }
 });
 
-//post note to a user
-router.post("/users/:userId/notes", async (request, response, next) => {
+//GET A STUDYGROUP BY ID
+router.get("/studygroups/:studyGroupId", async (request, response, next) => {
   try {
-    const user = await User.findByPk(request.params.userId);
-    if (user) {
-      const note = await Note.create(request.body);
-      user.addNote(note);
-      await user.save();
-      response.status(201).location(note.id).send();
+    const studyGroup = await StudyGroup.findByPk(request.params.studyGroupId);
+    if (studyGroup) {
+      response.json(studyGroup);
     } else {
       response.sendStatus(404);
     }
