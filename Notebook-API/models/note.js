@@ -24,6 +24,10 @@ const Note = sequelize.define("note", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  text: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 module.exports = Note;

@@ -35,3 +35,6 @@ DELETE
 Both
 SEARCH WIP
 1.get notes by any parameter (activitydate, creator, tag, subject, activity type and name , using && not ||)
+
+POSTMAN COMMANDS:
+https://www.getpostman.com/collections/663d50cbb5d2581de7ac
