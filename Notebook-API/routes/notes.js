@@ -4,23 +4,6 @@ const Resource = require("../models/resource");
 const Tag = require("../models/tag");
 const User = require("../models/user");
 
-//post note to a user
-router.post("/notes/:userId/notes", async (request, response, next) => {
-  try {
-    const user = await User.findByPk(request.params.userId);
-    if (user) {
-      const note = await Note.create(request.body);
-      user.addNote(note);
-      await user.save();
-      response.status(201).location(note.id).send();
-    } else {
-      response.sendStatus(404);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
 //GET all notes from a user
 router.get("/notes/:userId/notes", async (request, response, next) => {
   try {

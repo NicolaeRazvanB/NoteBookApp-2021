@@ -13,7 +13,7 @@ GET
 POST
 1.post user, note, studygroup,resource,tag U N
 2.post a user in a group U
-3.post a note for a user N
+3.post a note for a user U
 4.post a tag for a note N
 5.post a resource for a note N
 
