@@ -4,8 +4,8 @@ const { now } = require("sequelize/dist/lib/utils");
 
 const Note = sequelize.define("note", {
   id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
   },
   subject: {
@@ -24,10 +24,6 @@ const Note = sequelize.define("note", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  adminId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  }, // defapt trebuia sa fie array
 });
 
 module.exports = Note;

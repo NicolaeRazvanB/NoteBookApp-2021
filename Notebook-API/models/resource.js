@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 
 const Resource = sequelize.define("resource", {
   id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
   },
   type: {
