@@ -8,12 +8,12 @@ export default function NoteCard({ note, curentUser }) {
     console.log(curentUser);
     axios.delete("/api/users/" + curentUser.id + "/notes/" + note.id);
   };
+
   return (
-    <div>
+    <div id="card">
       <div>
         {" "}
         <div
-          id="card"
           onClick={() => {
             if (isClicked === true) setIsClicked(false);
             else setIsClicked(true);
