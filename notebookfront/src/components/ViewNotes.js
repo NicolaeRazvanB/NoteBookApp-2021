@@ -15,7 +15,7 @@ export default function ViewNotes({ curentUser }) {
       }
     };
     FetchData();
-  }, []);
+  }, [notes]);
 
   return (
     <div>
@@ -23,7 +23,7 @@ export default function ViewNotes({ curentUser }) {
       {notes.length > 0 &&
         notes.map((note) => (
           <div key={note.id}>
-            <NoteCard note={note} />
+            <NoteCard note={note} curentUser={curentUser} />
           </div>
         ))}
     </div>

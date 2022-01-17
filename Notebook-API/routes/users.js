@@ -201,7 +201,7 @@ router.put(
 router.put("/users/:userId/notes/:noteId", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
-    if (resource) {
+    if (res) {
       const notes = await user.getNotes({ id: req.params.noteId });
       const note = notes.shift();
       if (note) {
@@ -290,10 +290,10 @@ router.put(
 );
 
 // DELETE a note from a user
-router.put("/users/:userId/notes/:noteId", async (req, res, next) => {
+router.delete("/users/:userId/notes/:noteId", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
-    if (resource) {
+    if (res) {
       const notes = await user.getNotes({ id: req.params.noteId });
       const note = notes.shift();
       if (note) {
