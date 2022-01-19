@@ -167,7 +167,7 @@ router.put(
 );
 
 // DELETE a tag from a note
-router.put(
+router.delete(
     "/users/:userId/notes/:noteId/tags/:tagId",
     async (req, res, next) => {
         try {
@@ -199,7 +199,7 @@ router.put(
 );
 
 // DELETE a resource from a note
-router.put(
+router.delete(
     "/users/:userId/notes/:noteId/resources/:resourceId",
     async (req, res, next) => {
         try {
