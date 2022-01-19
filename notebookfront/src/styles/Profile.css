@@ -1,0 +1,13 @@
+.general-button {
+    background-color: #586f7c;
+    color: #fff;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px 4px;
+}
+
+.general-button:hover {
+    background-color: #4a6777;
+}
